@@ -29,17 +29,20 @@ class App
 
         $this->templates->registerFunction('getSession', fn () => $session);
 
+        $container = [
+            'templates' => $this->templates,
+            'doctrine' => $this->orm,
+        ];
+
         try {
             $controller = $this->router->resolveController($request);
-
-            $container = [
-                'templates' => $this->templates,
-                'doctrine' => $this->orm,
-            ];
+            $arguments = $this->router->resolveArguments($request);
+            $arguments[] = $request;
 
             $controller[0]->setContainer($container);
 
-            return $controller($request);
+            return $controller(...$arguments);
+
         } catch (NotFoundException $e) {
             $content = <<<NotFound
                 <h1>{$e->getMessage()}</h1>

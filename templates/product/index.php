@@ -28,7 +28,7 @@
         <td><?= $this->e($product->getPrice())?></td>
         <td><?= $product->getUpdatedAt() ? date("c", $product->getUpdatedAt()->getTimestamp()) : "-"?></td>
         <td>
-            <a href="/products/edit?id=<?= $this->e($product->getId())?>">Modifier</a>
+            <a href="/products/<?= $this->e($product->getId())?>/edit">Modifier</a>
         </td>
     </tr>
     <?php endforeach; ?>

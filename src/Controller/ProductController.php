@@ -63,9 +63,8 @@ class ProductController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request): Response
+    public function edit(int $id, Request $request): Response
     {
-        $id = $request->query->getInt('id');
         $repository = $this->getDoctrine()->getRepository(Product::class);
         /** @var Product $product */
         $product = $repository->find($id);

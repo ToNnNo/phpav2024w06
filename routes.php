@@ -12,5 +12,5 @@ return [
     "/pattern/composite" => ['controller' => "App\\Controller\\PatternController::composite", 'http_methods' => []],
     "/products" => ['controller' => "App\\Controller\\ProductController::index", 'http_methods' => []],
     "/products/add" => ['controller' => "App\\Controller\\ProductController::add", 'http_methods' => ['GET', 'POST']],
-    "/products/edit" => ['controller' => "App\\Controller\\ProductController::edit", 'http_methods' => ['GET', 'POST']],
+    "/products/{id}/edit" => ['controller' => "App\\Controller\\ProductController::edit", 'http_methods' => ['GET', 'POST']],
 ];
