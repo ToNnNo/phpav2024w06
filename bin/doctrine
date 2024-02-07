@@ -1,0 +1,14 @@
+#!/usr/local/bin/php
+<?php
+
+use \Doctrine\ORM\Tools\Console\ConsoleRunner;
+use \Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+use \Core\DoctrineORM;
+
+require dirname(__DIR__) . "/vendor/autoload.php";
+
+$orm = new DoctrineORM();
+
+ConsoleRunner::run(
+    new SingleManagerProvider($orm->getEntityManager())
+);
