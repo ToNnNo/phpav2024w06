@@ -17,6 +17,7 @@
             <a href="/" class="nav-link">Accueil</a>
             <a href="/pattern" class="nav-link">Design Pattern</a>
             <a href="/products" class="nav-link">Liste des produits</a>
+            <a href="/openssl" class="nav-link">Crypter un message</a>
         </nav>
         <main>
             <?php
