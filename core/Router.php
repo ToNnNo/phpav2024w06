@@ -28,6 +28,8 @@ class Router
                 return $params;
             }
         }
+
+        return [];
     }
 
     public function resolveController(Request $request): callable

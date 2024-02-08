@@ -87,7 +87,7 @@ class ProductController extends AbstractController
                 $request->getSession()->getFlashBag()->add('success', "Le produit a bien été modifier");
 
                 // post-redirect-get
-                return new RedirectResponse("/products/edit?id=".$product->getId());
+                return new RedirectResponse("/products/".$product->getId()."/edit");
             }
 
             $request->getSession()->getFlashBag()->add("danger", "Le token n'est pas valide");
