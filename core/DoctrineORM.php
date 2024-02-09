@@ -29,17 +29,23 @@ class DoctrineORM
         $config->setMiddlewares([new Middleware(new class extends AbstractLogger {
             public function log($level, $message, array $context = []): void
             {
+                $path = dirname(__DIR__) . "/var/log/doctrine.log";
 
+                if( array_key_exists('sql', $context) ) {
 
-                /*if( array_key_exists('sql', $context) ) {
-                    echo "<div class='mx-3 mt-1'>";
-                    printf("<p class='mb-0'>%s</p>", $context['sql']);
+                    $content = sprintf("[%s] %s: %s;",
+                        (new \DateTime())->format("c"),
+                        $level,
+                        $context['sql']
+                    );
 
                     if( array_key_exists('params', $context)) {
-                        printf("<p>Paramètres: %s</p>", json_encode(array_values($context['params'])));
+                        $content .= sprintf(" (Paramètres: %s)", json_encode(array_values($context['params'])));
                     }
-                    echo "</div>";
-                }*/
+
+                    $content .= "\r\n";
+                    file_put_contents($path, $content, FILE_APPEND);
+                }
             }
         })]);
 

@@ -9,6 +9,13 @@
             "Core\\": "core/"
         }
     },
+    "scripts": {
+        "post-update-cmd": [
+        ],
+        "test":[
+            "php vendor/bin/phpunit"
+        ]
+    },
     "require": {
         "php": ">=8.0",
         "ext-json": "*",
@@ -19,5 +26,8 @@
         "twbs/bootstrap": "^5.3",
         "symfony/serializer": "^7.0",
         "symfony/property-access": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10"
     }
 }
