@@ -6,9 +6,6 @@ use App\Entity\Product;
 use App\Service\Token;
 use Core\Controller\AbstractController;
 use Core\Exception\NotFoundException;
-use Doctrine\DBAL\Logging\Middleware;
-use Psr\Log\AbstractLogger;
-use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,14 +19,16 @@ class ProductController extends AbstractController
         $this->token = new Token();
     }
 
-
     public function index(): Response
     {
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(Product::class);
         $products = $repository->findLast();
 
-        return $this->render("product/index", ['products' => $products]);
+        return $this->render("product/index", [
+            'products' => $products,
+            'token' => $this->token->create('remove')
+        ]);
     }
 
     public function add(Request $request): Response
@@ -97,6 +96,21 @@ class ProductController extends AbstractController
             'product' => $product,
             'token' => $this->token->create('edit-product')
         ]);
+    }
+
+    public function remove(int $id, Request $request): Response
+    {
+        $token = $request->query->get('token');
+        if( $this->token->isValid('remove', $token) ) {
+            $repository = $this->getDoctrine()->getRepository(Product::class);
+            $em = $this->getDoctrine()->getEntityManager();
+            $product = $repository->find($id);
+
+            $em->remove($product);
+            $em->flush();
+        }
+
+        return new RedirectResponse("/products");
     }
 
 }

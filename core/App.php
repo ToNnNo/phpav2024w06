@@ -2,6 +2,7 @@
 
 namespace Core;
 
+use App\Service\Token;
 use Core\Exception\NotFoundException;
 use League\Plates\Engine;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,6 +29,7 @@ class App
         $request->setSession($session);
 
         $this->templates->registerFunction('getSession', fn () => $session);
+        $this->templates->registerFunction('create_token', fn ($key) => (new Token())->create($key));
 
         $container = [
             'templates' => $this->templates,

@@ -29,6 +29,8 @@
         <td><?= $product->getUpdatedAt() ? date("c", $product->getUpdatedAt()->getTimestamp()) : "-"?></td>
         <td>
             <a href="/products/<?= $this->e($product->getId())?>/edit">Modifier</a>
+            <a href="/products/<?= $this->e($product->getId())?>/remove?token=<?= $this->create_token('remove') ?>">
+                Supprimer</a>
         </td>
     </tr>
     <?php endforeach; ?>

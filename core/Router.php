@@ -44,15 +44,26 @@ class Router
 
             if (preg_match('#^' . $pattern . '$#', $path, $m)) {
 
-                ['controller' => $controller, 'http_methods' => $http_methods] = $routeConfiguration[$key];
+                foreach ($routeConfiguration[$key] as $data) {
+                    ['controller' => $controller, 'http_methods' => $http_methods] = $data;
 
-                if (!empty($http_methods) && !in_array($request->getMethod(), $http_methods)) {
-                    throw new \Exception('Method Not Allow Exception'); // 405
+                    // si $http_methods est vide on autorise tous les verbs
+                    if(empty($http_methods)) {
+                        [$class, $method] = explode("::", $controller);
+
+                        return [new $class(), $method];
+                    }
+
+                    // sinon on vérifie que le verb est valide
+                    if(in_array($request->getMethod(), $http_methods)) {
+                        [$class, $method] = explode("::", $controller);
+
+                        return [new $class(), $method];
+                    }
                 }
 
-                [$class, $method] = explode("::", $controller);
-
-                return [new $class(), $method];
+                // si aucun verb ne correspond, alors 405
+                throw new \Exception('Method Not Allow Exception'); // 405
             }
         }
 
